@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
-const { LocalStorage } = require('node-localstorage');
-const localStorage = new LocalStorage('./scratch');
+
 
 export default function Numeros() {
   const [resultado, setResultado] = useState<string>("");
@@ -14,7 +13,7 @@ export default function Numeros() {
 
   function selecionarNumero(numero:number) {
     setNumeroSelecionado(numero)
-    setIsModalOpen1(true)
+    setIsModalOpen1(true) 
   }
   
   interface NumeroRifa {
@@ -90,7 +89,7 @@ export default function Numeros() {
     const numeroOculto = primeirosDigitos + numerosOcultos + ultimosDigitos;
     return numeroOculto;
   } 
-  
+
  localStorage.setItem("cpf", cpfPesquisado )
 
   function pesquisaPorCpf() {
