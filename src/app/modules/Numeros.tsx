@@ -97,7 +97,7 @@ export default function Numeros() {
     setIsModalOpen(true);
   }
 
-  localStorage.setItem("cpf", cpfPesquisado )
+  const cpf = localStorage.setItem("cpf", cpfPesquisado )
 
   const openModal1 = () => setIsModalOpen1(true);
   const closeModal1 = () => setIsModalOpen1(false);

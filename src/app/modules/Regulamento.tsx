@@ -5,6 +5,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 const API_URL = "http://localhost:3001/api/dados";
 
 const NUMERO_MAXIMO = 100;
+
 interface NumeroRifa {
   id: number;
   numero: number;
@@ -89,6 +90,12 @@ export default function Regulamento() {
     setNumerosDisponiveis1(numeroSorteado);
     openModal2();
   }
+  function handleDelete(numero: string) {
+    const updatedNumerosSorteados = numerosSorteados.filter(
+      (num) => num !== numero
+    );
+    setNumerosSorteados(updatedNumerosSorteados);
+  }
 
   return (
       <article className="mx-4 w-full h-full mt-4 text-slate-950">
@@ -132,7 +139,7 @@ export default function Regulamento() {
         <Modal isOpen={isModalOpen2} closeModal={closeModal2}>
           <h2>Este e o seu numero</h2>
           <ul className="flex flex-wrap justify-center">
-            <li className="text-center p-4 m-1  bg-lime-500 flex">{numerosDisponiveis1}<button><DeleteOutlined className="mx-2"/></button></li>
+            <li className="text-center p-4 m-1  bg-lime-500 flex">{numerosDisponiveis1}</li>
           </ul>
           <form action="" method="post" className="flex flex-col m-2">
                       <label className="my-2">Nome Completo</label>
@@ -182,7 +189,7 @@ export default function Regulamento() {
               className="p-4 m-1 bg-lime-500 flex"
               key={numero}
             >
-              {numero}<button><DeleteOutlined className="mx-2"/></button>
+              {numero}<button onClick={() => handleDelete(numero)}><DeleteOutlined className="mx-2"/></button>
             </li>
           ))}
         </ul>
