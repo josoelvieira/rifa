@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
+const { LocalStorage } = require('node-localstorage');
+const localStorage = new LocalStorage('./scratch');
 
 export default function Numeros() {
   const [resultado, setResultado] = useState<string>("");
@@ -87,7 +89,9 @@ export default function Numeros() {
     const ultimosDigitos = telefone.toString().substring(7, 9);
     const numeroOculto = primeirosDigitos + numerosOcultos + ultimosDigitos;
     return numeroOculto;
-  }
+  } 
+  
+ localStorage.setItem("cpf", cpfPesquisado )
 
   function pesquisaPorCpf() {
     const numerosPorCpf = numerosRifa.filter(
@@ -97,7 +101,7 @@ export default function Numeros() {
     setIsModalOpen(true);
   }
 
-  const cpf = localStorage.setItem("cpf", cpfPesquisado )
+  
 
   const openModal1 = () => setIsModalOpen1(true);
   const closeModal1 = () => setIsModalOpen1(false);
@@ -105,7 +109,7 @@ export default function Numeros() {
 
   return (
     <article className="p-4 border-t-4 border-white m-4">
-      <div className=" my-4 flex justify-center">
+      <div className=" my-4 flex justify-center flex-wrap">
         <button className=" bg-white text-gray-950 p-4 m-2" onClick={todos}>
           Todos
         </button>

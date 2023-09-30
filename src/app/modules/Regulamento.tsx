@@ -139,7 +139,7 @@ export default function Regulamento() {
         <Modal isOpen={isModalOpen2} closeModal={closeModal2}>
           <h2>Este e o seu numero</h2>
           <ul className="flex flex-wrap justify-center">
-            <li className="text-center p-4 m-1  bg-lime-500 flex">{numerosDisponiveis1}</li>
+            <li className="text-center justify-center items-center h-16 w-16 bg-lime-500 flex">{numerosDisponiveis1}</li>
           </ul>
           <form action="" method="post" className="flex flex-col m-2">
                       <label className="my-2">Nome Completo</label>
