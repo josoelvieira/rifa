@@ -90,7 +90,7 @@ export default function Numeros() {
     return numeroOculto;
   } 
 
- localStorage.setItem("cpf", cpfPesquisado )
+ 
 
   function pesquisaPorCpf() {
     const numerosPorCpf = numerosRifa.filter(
