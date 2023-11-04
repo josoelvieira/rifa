@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 
 export default function Numeros() {
@@ -8,7 +10,6 @@ export default function Numeros() {
   const [numerosPorCpf, setNumerosPorcpf] = useState<NumeroRifa[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isModalOpen1, setIsModalOpen1] = useState<boolean>(false);
-  const [data, setData] = useState<NumeroRifa[]>([]);
   const [numeroSelecionado, setNumeroSelecionado] = useState<number | null>(null)
 
   function selecionarNumero(numero:number) {
@@ -37,30 +38,13 @@ export default function Numeros() {
     );
   }
 
-  async function dados(): Promise<{ dados: NumeroRifa[] }> {
-    const response = await fetch("http://localhost:3001/api/dados");
-    const data = await response.json();
-    return data;
-  }
+  const { data, isLoading } = useQuery<NumeroRifa[]>({
+    queryKey: ["Numeros"],
+    queryFn: () =>
+      axios.get("http://localhost:3001/api/dados").then((res) => res.data),
+  });
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await dados();
-        if (Array.isArray(response.dados) && response.dados.every(isNumeroRifa)) {
-          setData(response.dados);
-        } else {
-          console.error("Dados inválidos");
-        }
-      } catch (error) {
-        console.error("Erro ao buscar dados:", error);
-      }
-    }
-
-    fetchData();
-  }, []);
-
-  const numerosRifa: NumeroRifa[] = data;
+console.log(data)
 
   function pago() {
     setResultado("pago");
@@ -75,9 +59,9 @@ export default function Numeros() {
     setResultado("reservado");
   }
 
-  const numero: NumeroRifa[] = numerosRifa.filter((numero) =>
+  const numero: NumeroRifa[] = Array.isArray(data) ? data.filter((numero) =>
     numero.tipo.toLowerCase().includes(resultado.toLowerCase())
-  );
+  ): [];
 
   function ocultaNumero(telefone: number) {
     if (telefone < 10) {
@@ -93,7 +77,7 @@ export default function Numeros() {
  
 
   function pesquisaPorCpf() {
-    const numerosPorCpf = numerosRifa.filter(
+    const numerosPorCpf = data?.filter(
       (numero) => numero.cpf === cpfPesquisado
     );
     setNumerosPorcpf(numerosPorCpf);
@@ -105,7 +89,8 @@ export default function Numeros() {
   const openModal1 = () => setIsModalOpen1(true);
   const closeModal1 = () => setIsModalOpen1(false);
 
-
+  if (isLoading || !data)
+  return <p className="animate-ping text-center m-4"> Carregando...</p>;
   return (
     <article className="p-4 border-t-4 border-white m-4">
       <div className=" my-4 flex justify-center flex-wrap">
